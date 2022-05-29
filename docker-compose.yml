@@ -1,0 +1,22 @@
+version: '3.5'
+
+networks:
+  bridge:
+    driver: bridge
+
+services:
+  apache:
+    container_name: ${PROJECT}_httpd
+    build:
+      context: ./
+      dockerfile: ./apache/Dockerfile
+      args:
+        - PHP_VERSION=${PHP_VERSION}
+    ports:
+      - "${HTTP_HOST_PORT}:${HTTP_PORT}"
+      - "${HTTPS_HOST_PORT}:${HTTPS_PORT}"
+    tty: true
+    volumes:
+      - ${APP_CODE_PATH_HOST?}:${APP_CODE_PATH_CONTAINER?}
+    networks:
+      - bridge

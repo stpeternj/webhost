@@ -21,7 +21,8 @@ RUN docker-php-ext-install mysqli pdo pdo_mysql && docker-php-ext-enable pdo_mys
 
 RUN pear config-set php_ini /usr/local/etc/php/php.ini
 RUN pecl config-set php_ini /usr/local/etc/php/php.ini
-RUN pecl install xdebug-2.9.8 && docker-php-ext-enable xdebug
+ARG XDEBUG_VERSION
+RUN pecl install xdebug-${XDEBUG_VERSION} && docker-php-ext-enable xdebug
 WORKDIR /var/www
 
 EXPOSE 80 443

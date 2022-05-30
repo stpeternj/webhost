@@ -12,6 +12,7 @@ services:
       dockerfile: ./apache/Dockerfile
       args:
         - PHP_VERSION=${PHP_VERSION}
+        - XDEBUG_VERSION=${XDEBUG_VERSION}
     ports:
       - "${HTTP_HOST_PORT}:${HTTP_PORT}"
       - "${HTTPS_HOST_PORT}:${HTTPS_PORT}"
@@ -41,6 +42,22 @@ services:
       - ${MYSQL_ENTRYPOINT_INITDB}:/docker-entrypoint-initdb.d
     ports:
       - "${MYSQL_HOST_PORT}:${MYSQL_PORT}"
+    networks:
+      - bridge
+
+  php-cli:
+    container_name: ${PROJECT}_php-cli
+    build:
+      context: ./
+      dockerfile: ./php-cli/Dockerfile
+      args:
+        - PHP_VERSION=${PHP_VERSION}
+        - XDEBUG_VERSION=${XDEBUG_VERSION}
+    ports:
+      - "${SSH_HOST_PORT}:${SSH_PORT}"
+    tty: true
+    volumes:
+      - ${APP_CODE_PATH_HOST?}:${APP_CODE_PATH_CONTAINER?}
     networks:
       - bridge
 

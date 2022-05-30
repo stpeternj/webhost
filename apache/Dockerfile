@@ -19,6 +19,9 @@ COPY apache/php-local.ini /usr/local/etc/php/conf.d
 RUN docker-php-ext-install mysqli pdo pdo_mysql && docker-php-ext-enable pdo_mysql
 
 
+RUN pear config-set php_ini /usr/local/etc/php/php.ini
+RUN pecl config-set php_ini /usr/local/etc/php/php.ini
+RUN pecl install xdebug-2.9.8 && docker-php-ext-enable xdebug
 WORKDIR /var/www
 
 EXPOSE 80 443

@@ -20,3 +20,27 @@ services:
       - ${APP_CODE_PATH_HOST?}:${APP_CODE_PATH_CONTAINER?}
     networks:
       - bridge
+
+  mysql:
+    container_name: ${PROJECT}_mysql
+    build:
+      context: ./
+      dockerfile: ./mysql/Dockerfile
+      args:
+        - TIMEZONE=${TIMEZONE}
+        - MYSQL_VERSION=${MYSQL_VERSION}
+        - STPETERNJ_USER=${STPETERNJ_USER}
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${STPETERNJ_DATABASE}
+      - MYSQL_USER=${STPETERNJ_USER}
+      - MYSQL_PASSWORD=${STPETERNJ_PASSWORD}
+      - TZ=${TIMEZONE}
+    volumes:
+      - ${DATA_PATH_HOST}/mysql:/var/lib/mysql
+      - ${MYSQL_ENTRYPOINT_INITDB}:/docker-entrypoint-initdb.d
+    ports:
+      - "${MYSQL_HOST_PORT}:${MYSQL_PORT}"
+    networks:
+      - bridge
+

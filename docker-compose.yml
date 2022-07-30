@@ -28,6 +28,7 @@ services:
       context: ./
       dockerfile: ./mysql/Dockerfile
       args:
+        - MYSQL_CONTAINER_DIR=./mysql/
         - TIMEZONE=${TIMEZONE}
         - MYSQL_VERSION=${MYSQL_VERSION}
         - STPETERNJ_USER=${STPETERNJ_USER}
